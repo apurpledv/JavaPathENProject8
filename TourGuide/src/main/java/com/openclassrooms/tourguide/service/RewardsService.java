@@ -51,7 +51,8 @@ public class RewardsService {
 	}
 	
 	public boolean isWithinAttractionProximity(Attraction attraction, Location location) {
-		return getDistance(attraction, location) > attractionProximityRange ? false : true;
+		System.out.println(getDistance(attraction, location));
+		return getDistance(attraction, location) < attractionProximityRange ? true : false;
 	}
 	
 	private boolean nearAttraction(VisitedLocation visitedLocation, Attraction attraction) {

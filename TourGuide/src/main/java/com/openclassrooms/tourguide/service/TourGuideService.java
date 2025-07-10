@@ -7,13 +7,13 @@ import com.openclassrooms.tourguide.user.UserReward;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
+import java.util.TreeMap;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -81,9 +81,12 @@ public class TourGuideService {
 
 	public List<Provider> getTripDeals(User user) {
 		int cumulatativeRewardPoints = user.getUserRewards().stream().mapToInt(i -> i.getRewardPoints()).sum();
+
 		List<Provider> providers = tripPricer.getPrice(tripPricerApiKey, user.getUserId(),
 				user.getUserPreferences().getNumberOfAdults(), user.getUserPreferences().getNumberOfChildren(),
 				user.getUserPreferences().getTripDuration(), cumulatativeRewardPoints);
+
+
 		user.setTripDeals(providers);
 		return providers;
 	}
@@ -96,11 +99,25 @@ public class TourGuideService {
 	}
 
 	public List<Attraction> getNearByAttractions(VisitedLocation visitedLocation) {
-		List<Attraction> nearbyAttractions = new ArrayList<>();
-		for (Attraction attraction : gpsUtil.getAttractions()) {
-			if (rewardsService.isWithinAttractionProximity(attraction, visitedLocation.location)) {
-				nearbyAttractions.add(attraction);
-			}
+		// How many attractions to recommend
+		int numberOfAttractions = 5;
+
+		List<Attraction> nearbyAttractions = gpsUtil.getAttractions();
+		TreeMap<Double, Attraction> closestAttractions = new TreeMap<>();
+		
+		// Loop through every attraction; add each one to a TreeMap using the distance between it and the user as KEY 
+		// (this way, it's automatically ordered by ascending)
+		nearbyAttractions.forEach(a -> closestAttractions.put(rewardsService.getDistance(a, visitedLocation.location), a));
+		
+		// Let's clear it to re-use it
+		nearbyAttractions.clear();
+
+		// Pick the first 5 attractions from the TreeMap (according to the key, the distance)
+		for (Map.Entry<Double, Attraction> attraction : closestAttractions.entrySet()) {
+			if (nearbyAttractions.size() >= numberOfAttractions)
+				break;
+
+			nearbyAttractions.add(attraction.getValue());
 		}
 
 		return nearbyAttractions;

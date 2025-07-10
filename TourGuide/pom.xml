@@ -60,7 +60,7 @@
 			<artifactId>tripPricer</artifactId>
 			<version>1.0.0</version>
 			<scope>system</scope>
-			<systemPath>C:/Users/duckl/Desktop/OpenClassrooms/FormationJava2024/PROJET#8/JavaPathENProject8/TourGuide/libs/TripPricer.jar</systemPath>
+			<systemPath>C:/Users/duckl/Desktop/OpenClassrooms/FormationJava2024/PROJET#8/JavaPathENProject8/TourGuide/libs/tripPricer.jar</systemPath>
 		</dependency>
 
 		<dependency>
