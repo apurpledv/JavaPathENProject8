@@ -22,7 +22,6 @@ import com.openclassrooms.tourguide.user.UserReward;
 
 public class TestRewardsService {
 
-	@Disabled
 	@Test
 	public void userGetRewards() {
 		GpsUtil gpsUtil = new GpsUtil();
@@ -40,7 +39,6 @@ public class TestRewardsService {
 		assertTrue(userRewards.size() == 1);
 	}
 
-	@Disabled
 	@Test
 	public void isWithinAttractionProximity() {
 		GpsUtil gpsUtil = new GpsUtil();
@@ -49,7 +47,6 @@ public class TestRewardsService {
 		assertTrue(rewardsService.isWithinAttractionProximity(attraction, attraction));
 	}
 
-	@Disabled
 	@Test
 	public void nearAllAttractions() {
 		GpsUtil gpsUtil = new GpsUtil();

@@ -22,7 +22,6 @@ import tripPricer.Provider;
 
 public class TestTourGuideService {
 
-	@Disabled
 	@Test
 	public void getUserLocation() throws InterruptedException, ExecutionException {
 		GpsUtil gpsUtil = new GpsUtil();
@@ -36,7 +35,6 @@ public class TestTourGuideService {
 		assertTrue(visitedLocation.userId.equals(user.getUserId()));
 	}
 
-	@Disabled
 	@Test
 	public void addUser() {
 		GpsUtil gpsUtil = new GpsUtil();
@@ -59,7 +57,6 @@ public class TestTourGuideService {
 		assertEquals(user2, retrivedUser2);
 	}
 
-	@Disabled
 	@Test
 	public void getAllUsers() {
 		GpsUtil gpsUtil = new GpsUtil();
@@ -81,7 +78,6 @@ public class TestTourGuideService {
 		assertTrue(allUsers.contains(user2));
 	}
 
-	@Disabled
 	@Test
 	public void trackUser() throws InterruptedException, ExecutionException {
 		GpsUtil gpsUtil = new GpsUtil();
@@ -97,7 +93,6 @@ public class TestTourGuideService {
 		assertEquals(user.getUserId(), visitedLocation.userId);
 	}
 
-	@Disabled
 	@Test
 	public void getNearbyAttractions() throws InterruptedException, ExecutionException {
 		GpsUtil gpsUtil = new GpsUtil();
