@@ -15,6 +15,10 @@ import java.util.Map;
 import java.util.Random;
 import java.util.TreeMap;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -38,6 +42,7 @@ public class TourGuideService {
 	private final TripPricer tripPricer = new TripPricer();
 	public final Tracker tracker;
 	boolean testMode = true;
+	ExecutorService threadExecutor = Executors.newFixedThreadPool(4);
 
 	public TourGuideService(GpsUtil gpsUtil, RewardsService rewardsService) {
 		this.gpsUtil = gpsUtil;
@@ -60,9 +65,14 @@ public class TourGuideService {
 	}
 
 	public VisitedLocation getUserLocation(User user) {
-		VisitedLocation visitedLocation = (user.getVisitedLocations().size() > 0) ? user.getLastVisitedLocation()
-				: trackUserLocation(user);
-		return visitedLocation;
+		try {
+			VisitedLocation visitedLocation = (user.getVisitedLocations().size() > 0) ? user.getLastVisitedLocation()
+					: trackUserLocationAsync(user).get();
+			return visitedLocation;
+		} catch (InterruptedException | ExecutionException e) {
+			logger.info("Halting: Tracking User Location");
+			return null;
+		}
 	}
 
 	public User getUser(String userName) {
@@ -91,11 +101,13 @@ public class TourGuideService {
 		return providers;
 	}
 
-	public VisitedLocation trackUserLocation(User user) {
-		VisitedLocation visitedLocation = gpsUtil.getUserLocation(user.getUserId());
-		user.addToVisitedLocations(visitedLocation);
-		rewardsService.calculateRewards(user);
-		return visitedLocation;
+	public CompletableFuture<VisitedLocation> trackUserLocationAsync(User user) {
+		return CompletableFuture.supplyAsync(() -> {
+			VisitedLocation visitedLocation = gpsUtil.getUserLocation(user.getUserId());
+			user.addToVisitedLocations(visitedLocation);
+			rewardsService.calculateRewards(user);
+			return visitedLocation;
+		}, threadExecutor);
 	}
 
 	public List<Attraction> getNearByAttractions(VisitedLocation visitedLocation) {
@@ -106,7 +118,7 @@ public class TourGuideService {
 		TreeMap<Double, Attraction> closestAttractions = new TreeMap<>();
 		
 		// Loop through every attraction; add each one to a TreeMap using the distance between it and the user as KEY 
-		// (this way, it's automatically ordered by ascending)
+		// (this way, it's automatically ordered by ascending via TreeMap)
 		nearbyAttractions.forEach(a -> closestAttractions.put(rewardsService.getDistance(a, visitedLocation.location), a));
 		
 		// Let's clear it to re-use it
