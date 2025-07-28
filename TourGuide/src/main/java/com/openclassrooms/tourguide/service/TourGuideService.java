@@ -105,7 +105,7 @@ public class TourGuideService {
 		return CompletableFuture.supplyAsync(() -> {
 			VisitedLocation visitedLocation = gpsUtil.getUserLocation(user.getUserId());
 			user.addToVisitedLocations(visitedLocation);
-			rewardsService.calculateRewards(user);
+			rewardsService.calculateRewards(user).join();
 			return visitedLocation;
 		}, threadExecutor);
 	}

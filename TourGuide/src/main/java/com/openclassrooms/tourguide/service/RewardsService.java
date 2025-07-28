@@ -53,6 +53,7 @@ public class RewardsService {
 					}
 				}
 			}
+			System.out.println("uuhuhuh: " + user.getUserRewards());
 			return true;
 		}, threadExecutor);
 	}
