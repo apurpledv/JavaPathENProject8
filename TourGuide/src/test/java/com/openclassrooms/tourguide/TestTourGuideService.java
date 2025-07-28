@@ -111,7 +111,6 @@ public class TestTourGuideService {
 		assertEquals(5, attractions.size());
 	}
 	
-
 	@Disabled // Unused
 	@Test
 	public void getTripDeals() {
