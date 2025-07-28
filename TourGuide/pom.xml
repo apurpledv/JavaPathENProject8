@@ -51,24 +51,18 @@
 			<groupId>gpsUtil</groupId>
 			<artifactId>gpsUtil</artifactId>
 			<version>1.0.0</version>
-			<scope>system</scope>
-			<systemPath>C:/Users/duckl/Desktop/OpenClassrooms/FormationJava2024/PROJET#8/JavaPathENProject8/TourGuide/libs/gpsUtil.jar</systemPath>
 		</dependency>
 
 		<dependency>
 			<groupId>tripPricer</groupId>
 			<artifactId>tripPricer</artifactId>
 			<version>1.0.0</version>
-			<scope>system</scope>
-			<systemPath>C:/Users/duckl/Desktop/OpenClassrooms/FormationJava2024/PROJET#8/JavaPathENProject8/TourGuide/libs/TripPricer.jar</systemPath>
 		</dependency>
 
 		<dependency>
 			<groupId>rewardCentral</groupId>
 			<artifactId>rewardCentral</artifactId>
 			<version>1.0.0</version>
-			<scope>system</scope>
-			<systemPath>C:/Users/duckl/Desktop/OpenClassrooms/FormationJava2024/PROJET#8/JavaPathENProject8/TourGuide/libs/RewardCentral.jar</systemPath>
 		</dependency>
 	</dependencies>
 
