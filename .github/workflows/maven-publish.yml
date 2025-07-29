@@ -35,8 +35,8 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file TourGuide/pom.xml
 
-    - name: Upload Artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: TourGuide
-        path: target
+    #- name: Upload Artifact
+     # uses: actions/upload-artifact@v4
+      #with:
+       # name: TourGuide
+        #path: target
