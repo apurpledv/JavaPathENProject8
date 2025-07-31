@@ -25,7 +25,7 @@ public class RewardsService {
 	private int attractionProximityRange = 200;
 	private final GpsUtil gpsUtil;
 	private final RewardCentral rewardsCentral;
-	ExecutorService threadExecutor = Executors.newFixedThreadPool(8);
+	ExecutorService threadExecutor = Executors.newFixedThreadPool(32);
 	
 	public RewardsService(GpsUtil gpsUtil, RewardCentral rewardCentral) {
 		this.gpsUtil = gpsUtil;
@@ -53,7 +53,6 @@ public class RewardsService {
 					}
 				}
 			}
-			System.out.println("uuhuhuh: " + user.getUserRewards());
 			return true;
 		}, threadExecutor);
 	}
